@@ -71,7 +71,7 @@
                     </HBox>
                 </VBox>
 
-                <Label id="titleLabelStyle" text="Minimális részhalmazok" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <Label id="titleLabelStyle" text="Megoldás" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
                 <TableView id="backPackOut" fx:id="calculatedSubs" minWidth="350" maxWidth="355" GridPane.rowIndex="1" GridPane.columnIndex="2" prefWidth="355" >
                     <columns>
                         <TableColumn text="Név" minWidth="50" maxWidth="50">

@@ -135,12 +135,10 @@ public class Set2Controller {
 
                     if (!duplicate){
                         tempList.removeAll(subSets.get(l).getElements());
+                        temp.add(subSets.get(l));
+                        setNum++;
                     }
-
-
-                    temp.add(subSets.get(l));
-                    setNum++;
-
+                    
                     if (tempList.isEmpty()){
                         if (setNum<minSet){
                             minSet = setNum;
@@ -160,28 +158,6 @@ public class Set2Controller {
         }
     }
 
-    private static void calculateMinSubsGreedy(){
-        ArrayList<String> tempList = (ArrayList<String>) union.clone();
-        ArrayList<String> equalItems = null;
-        ArrayList<String> bestEqualItems = null;
-
-        Set bestSet = null;
-        while (!(tempList.isEmpty())){
-            int db = 0;
-
-            for (int i=0;i<subSets.size();i++){
-                equalItems = (ArrayList<String>) tempList.clone();
-                equalItems.retainAll(subSets.get(i).getElements());
-                if (db<equalItems.size()){
-                    bestSet = subSets.get(i);
-                    db=equalItems.size();
-                    bestEqualItems = (ArrayList<String>) equalItems.clone();
-                }
-            }
-            tempList.removeAll(bestEqualItems);
-            output.add(bestSet);
-        }
-    }
 
     @FXML
     private void clearButtonClicked() {

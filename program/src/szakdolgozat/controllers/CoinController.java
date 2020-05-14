@@ -15,7 +15,7 @@ public class CoinController {
 
     private static final int[] BILLS = {20000,10000,5000,2000,1000,500,200,100,50,20,10,5};
     @FXML
-    private ObservableList<Bill> bills = FXCollections.observableArrayList();
+    private static ObservableList<Bill> bills = FXCollections.observableArrayList();
     @FXML
     private Label currencyLabel;
     @FXML
@@ -50,7 +50,7 @@ public class CoinController {
     private void startCalculateButtonClicked(){
         bills.clear();
         int currency = Integer.parseInt(coinTextfieldInput.getText());
-        bills = calculateBills(BILLS,Round(currency));
+        calculateBills(BILLS,Round(currency));
         calculatedItemTable.setItems(bills);
         int quantity = sumQuantity(bills);
 
@@ -60,8 +60,7 @@ public class CoinController {
         quantityLabel.setText(String.valueOf(quantity + " db"));
     }
 
-    private static ObservableList<Bill> calculateBills(int[] BILLS, int currency){
-        ObservableList<Bill> calculatedBills = FXCollections.observableArrayList();
+    private static void calculateBills(int[] BILLS, int currency){
         int amount=0;
         int quantity = 0;
         while(amount!=currency){
@@ -72,12 +71,11 @@ public class CoinController {
                 }
                 if (quantity!=0){
                     Bill bill = new Bill(BILLS[i],quantity);
-                    calculatedBills.add(bill);
+                    bills.add(bill);
                 }
                 quantity=0;
             }
         }
-        return calculatedBills;
     }
 
     private static int Round (int currency){

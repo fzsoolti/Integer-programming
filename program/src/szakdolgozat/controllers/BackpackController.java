@@ -34,7 +34,7 @@ public class BackpackController {
     @FXML
     private ObservableList<Item> items = FXCollections.observableArrayList();
     @FXML
-    private ObservableList<Item> calculatedItems = FXCollections.observableArrayList();
+    private static ObservableList<Item> calculatedItems = FXCollections.observableArrayList();
 
 
     @FXML
@@ -67,9 +67,10 @@ public class BackpackController {
 //    ----------------Calculate the best items--------------------
     @FXML
     private void startButtonClicked() {
+        calculatedItems.clear();
         int capacity = Integer.parseInt(backpackCapacityField.getText());
         capacityLabel.setText(String.valueOf(capacity)+" kg");
-        calculatedItems = calculateBestItems(items,capacity);
+        calculateBestItems(items,capacity);
         calculatedItemTable.setItems(calculatedItems);
         float sumWeight=sumWeight(calculatedItems);
         usedCapacityLabel.setText(String.valueOf(sumWeight)+" kg");
@@ -121,42 +122,35 @@ public class BackpackController {
         return sum;
     }
 
-    private static ObservableList<Item> calculateBestItems(ObservableList<Item> items, int capacity){
+    private static void calculateBestItems(ObservableList<Item> items, int capacity){
+//        Algorithm
         int NB_ITEMS = items.size();
-        // we use a matrix to store the max value at each n-th item
         int[][] matrix = new int[NB_ITEMS + 1][capacity + 1];
 
-        // first line is initialized to 0
         for (int i = 0; i <= capacity; i++)
             matrix[0][i] = 0;
 
-        // we iterate on items
         for (int i = 1; i <= NB_ITEMS; i++) {
-            // we iterate on each capacity
             for (int j = 0; j <= capacity; j++) {
                 if (items.get(i - 1).getItemWeight() > j)
                     matrix[i][j] = matrix[i-1][j];
                 else
-                    // we maximize value at this rank in the matrix
                     matrix[i][j] = Math.max(matrix[i-1][j], matrix[i-1][(int) (j - items.get(i - 1).getItemWeight())]
                             + items.get(i - 1).getItemUsefulness());
             }
         }
 
+//        Find items
         int res = matrix[NB_ITEMS][capacity];
         int w = capacity;
-        ObservableList<Item> calculatedItems = FXCollections.observableArrayList();
 
         for (int i = NB_ITEMS; i > 0  &&  res > 0; i--) {
             if (res != matrix[i-1][w]) {
                 calculatedItems.add(items.get(i - 1));
-                // we remove items value and weight
                 res -= items.get(i - 1).getItemUsefulness();
                 w -= items.get(i - 1).getItemWeight();
             }
         }
-
-        return calculatedItems;
     }
 
     //    ----------------Check float value--------------------

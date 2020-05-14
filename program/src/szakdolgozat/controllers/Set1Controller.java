@@ -105,6 +105,7 @@ public class Set1Controller {
             calculateMinSubs();
             long endTime = System.nanoTime();
             duration = (endTime - startTime);
+
         } else if (algorithmBox.getValue().equals("Mohó algoritmus")){
             long startTime = System.nanoTime();
             calculateMinSubsGreedy();
