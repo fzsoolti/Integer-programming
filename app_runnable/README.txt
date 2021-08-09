@@ -1,0 +1,1 @@
+A futtatáshoz szükséges a Java telepítése!
